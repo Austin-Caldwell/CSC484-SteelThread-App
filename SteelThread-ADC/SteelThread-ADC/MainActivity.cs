@@ -3,6 +3,7 @@ using Android.App;
 using Android.Widget;
 using Android.OS;
 using System.Net.Http;
+using System.Text;
 
 namespace SteelThread_ADC
 {
@@ -38,7 +39,27 @@ namespace SteelThread_ADC
 
         private void BtnSendText_OnClick(object sender, EventArgs e)
         {
-            // Include HTTP POST to Azure Function Here
+            // HTTP POST to Azure Function
+            using (var client = new HttpClient())
+            {
+                var url = "https://genevabirding.azurewebsites.net/api/TestFunction?code=v/Fl7SNE4qaY2f8nMS/vrCuyNce5L55ZdHFV20DkiAkoJlmnwZsUGA==";
+                var postBody = new StringContent("{name:" + userText.Text + "}", Encoding.UTF8, "application/json");
+
+                var resultFromAzure = client.PostAsync(new Uri(url), postBody).Result.Content.ReadAsStringAsync().Result;
+
+                var expectedResult = "Hello " + userText.Text;
+
+                if (resultFromAzure == expectedResult)
+                {
+                    Toast.MakeText(this, "Success! Results matched.", ToastLength.Long).Show();
+                }
+                else
+                {
+                    Toast.MakeText(this, "Failure! Results did not match.", ToastLength.Long).Show();
+                }
+
+                //client.PostAsync(new Uri(url), postBody).Result.EnsureSuccessStatusCode();
+            }
         }
     }
 }
