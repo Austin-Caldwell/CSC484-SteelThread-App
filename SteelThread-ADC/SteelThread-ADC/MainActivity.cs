@@ -46,7 +46,7 @@ namespace SteelThread_ADC
             // HTTP POST to Azure Function
             using (var client = new HttpClient())
             {
-                var url = "https://genevabirding.azurewebsites.net/api/TestFunction?code=v/Fl7SNE4qaY2f8nMS/vrCuyNce5L55ZdHFV20DkiAkoJlmnwZsUGA==";
+                var url = "https://austinproject.azurewebsites.net/api/Austin-SteelThread-HttpTrigger?code=KiQSAoH2CCFPlVPKzELQirn1eenI6oeWxrfPgjjN0sH3WUpJCoC0Yw==";
                 var postBody = new StringContent("{name:'" + userText.Text + "'}", Encoding.UTF8, "application/json");
 
                 var resultFromAzure = client.PostAsync(new Uri(url), postBody).Result.Content.ReadAsStringAsync().Result;
