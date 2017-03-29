@@ -27,6 +27,8 @@ namespace SteelThread_ADC
 
         protected override void OnStart()
         {
+            base.OnStart();
+
             // Register Event Handlers
             btnSendText.Click += BtnSendText_OnClick;
         }
@@ -35,6 +37,8 @@ namespace SteelThread_ADC
         {
             // DeRegister Event Handlers
             btnSendText.Click -= BtnSendText_OnClick;
+
+            base.OnStop();
         }
 
         private void BtnSendText_OnClick(object sender, EventArgs e)
@@ -63,4 +67,3 @@ namespace SteelThread_ADC
         }
     }
 }
-
