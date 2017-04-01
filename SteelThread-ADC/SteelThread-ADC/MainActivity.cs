@@ -43,26 +43,23 @@ namespace SteelThread_ADC
 
         private void BtnSendText_OnClick(object sender, EventArgs e)
         {
-            // HTTP POST to Azure Function
-            using (var client = new HttpClient())
+            Toast.MakeText(this, "Sending text to Azure Function....", ToastLength.Long).Show();
+            try
             {
-                var url = "https://austinproject.azurewebsites.net/api/Austin-SteelThread-HttpTrigger?code=KiQSAoH2CCFPlVPKzELQirn1eenI6oeWxrfPgjjN0sH3WUpJCoC0Yw==";
-                var postBody = new StringContent("{name:'" + userText.Text + "'}", Encoding.UTF8, "application/json");
-
-                var resultFromAzure = client.PostAsync(new Uri(url), postBody).Result.Content.ReadAsStringAsync().Result;
-
-                var expectedResult = "\"Hello " + userText.Text + "\"";
-
-                if (resultFromAzure == expectedResult)
+                // HTTP POST to Azure Function
+                using (var client = new HttpClient())
                 {
-                    Toast.MakeText(this, "Success! Results matched.", ToastLength.Long).Show();
-                }
-                else
-                {
-                    Toast.MakeText(this, "Failure! Results did not match.", ToastLength.Long).Show();
+                    var url = "https://austinproject.azurewebsites.net/api/Austin-SteelThread-HttpTrigger?code=r69oimkQXL54Emdp1WEaDu0/7CEZC0IP5dXMYm5ElpaF5xfuTBetow==";
+                    var postBody = new StringContent("{userInput:'" + userText.Text + "'}", Encoding.UTF8, "application/json");
+
+                    client.PostAsync(new Uri(url), postBody).Result.EnsureSuccessStatusCode();
                 }
 
-                //client.PostAsync(new Uri(url), postBody).Result.EnsureSuccessStatusCode();
+                Toast.MakeText(this, "Text sent to Azure Function.", ToastLength.Long).Show();
+            }
+            catch (Exception ex)
+            {
+                Toast.MakeText(this, "Error! " + ex.ToString(), ToastLength.Long).Show();
             }
         }
     }
