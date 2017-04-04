@@ -6,8 +6,13 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/editTextBlobName"
+        android:hint="Enter a name for your blob" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/editTextUserInput"
-        android:hint="Enter any text here." />
+        android:hint="Enter text to store in your blob" />
     <Button
         android:text="Send Text to Azure"
         android:layout_width="match_parent"
