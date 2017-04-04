@@ -22,8 +22,8 @@ namespace SteelThread_ADC
             SetContentView (Resource.Layout.Main);
 
             // Find Text Field and Button
-            blobName = FindViewById<EditText>(Resource.Id.editTextBlobName);
-            userText = FindViewById<EditText>(Resource.Id.editTextUserInput);
+            blobName = FindViewById<EditText>(Resource.Id.editTextBlobName);        // Allow user to specify a unique name for their blob
+            userText = FindViewById<EditText>(Resource.Id.editTextUserInput);       // Allow user to enter text to store in the blob
             btnSendText = FindViewById<Button>(Resource.Id.btnSendText);
         }
 
@@ -54,7 +54,7 @@ namespace SteelThread_ADC
                     var url = "https://austinproject.azurewebsites.net/api/Austin-SteelThread-HttpTrigger?code=r69oimkQXL54Emdp1WEaDu0/7CEZC0IP5dXMYm5ElpaF5xfuTBetow==";
                     var postBody = new StringContent("{blobName:'" + blobName.Text + "',\nuserInput:'" + userText.Text + "'}", Encoding.UTF8, "application/json");
 
-                    client.PostAsync(new Uri(url), postBody).Result.EnsureSuccessStatusCode();
+                    client.PostAsync(new Uri(url), postBody).Result.EnsureSuccessStatusCode();  // Send the HTTP POST to Azure Functions.  A blob will be created with the user-supplied name.  It will contain the user-supplied text.
                 }
 
                 Toast.MakeText(this, "Text sent to Azure Function.", ToastLength.Long).Show();
