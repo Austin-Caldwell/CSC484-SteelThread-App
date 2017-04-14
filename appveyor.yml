@@ -1,0 +1,22 @@
+environment:
+  keystore-password:
+    secure: +V2dcfnwnLTj6dVXGL6N+w== # Password for key AND keystore
+before_build:
+  - nuget restore SteelThread-ADC\SteelThread-ADC.sln
+build_script:
+  - msbuild "/t:SignAndroidPackage" "/p:Configuration=Release" "/p:AndroidKeyStore=true" "/p:AndroidSigningKeyAlias=ADCSteelThreadAppSigningKey" "/p:AndroidSigningKeyPass=%keystore-password%" "/p:AndroidSigningKeyStore=ADCSteelThreadAppSigningKey.keystore" "/p:AndroidSigningStorePass=%keystore-password%" "SteelThread-ADC\SteelThread-ADC\SteelThread-ADC.csproj"
+artifacts:
+  - path: SteelThread-ADC\SteelThread-ADC\bin\Release\AustinCaldwell.SteelThreadApp-Signed.apk
+deploy:
+  release: SteelThreadADC-v$(appveyor_build_version)
+  description: "Updated Release of App APK - v%appveyor_build_version%"
+  provider: GitHub
+  auth_token:
+    secure: MKcCgf6YDTEA/LmG8L3piE2yxhu32C6QYxh7JybQtLdhuP1cKwdSGryoGeHiAZoa # Encrypted token from GitHub
+  artifact: CSC484-SteelThread-App\SteelThread-ADC\SteelThread-ADC\bin\Release\AustinCaldwell.SteelThreadApp-Signed.apk # Upload APK from AppVeyor to GitHub Release
+  draft: false
+  prerelease: false
+  force_update: false
+  on:
+    branch: master # Release from master branch only
+    appveyor_repo_tag: false # Deploy on tag push only if TRUE
